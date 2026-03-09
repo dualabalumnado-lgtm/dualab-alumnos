@@ -2,21 +2,19 @@
 
 namespace App\Providers;
 
+use App\Services\ClaudeAIService;
+use App\Services\FichajeService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        // Registrar servicios como singletons
+        $this->app->singleton(ClaudeAIService::class);
+        $this->app->singleton(FichajeService::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         //
