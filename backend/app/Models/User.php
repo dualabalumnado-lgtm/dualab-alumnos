@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -70,6 +69,11 @@ class User extends Authenticatable
         return $this->hasMany(SurveyResponse::class);
     }
 
+    public function calendarEvents()
+    {
+        return $this->hasMany(CalendarEvent::class);
+    }
+
     //Helpers
 
     public function getNombreCompletoAttribute(): string
@@ -79,7 +83,7 @@ class User extends Authenticatable
 
     public function getInicialAttribute(): string
     {
-        $nombre = $this->name[0]    ?? '';
+        $nombre   = $this->name[0]     ?? '';
         $apellido = $this->apellido[0] ?? '';
         return strtoupper($nombre . $apellido);
     }
