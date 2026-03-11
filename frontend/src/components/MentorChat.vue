@@ -3,12 +3,9 @@
   <div class="chat-wrapper">
   
     <div class="chat-header">
-
-<img src="/src/assets/logo.png" class="chat-logo"/>
-
-<span>Mentor de prácticas</span>
-
-</div>
+      <img src="/src/assets/logo.png" class="chat-logo"/>
+      <span>Mentor Dualab</span>
+    </div>
   
     <div class="chat-box" ref="chatBox">
   
@@ -18,6 +15,21 @@
         :class="msg.role === 'Alumno' ? 'msg user' : 'msg bot'"
       >
         {{ msg.text }}
+      </div>
+  
+      <!-- QUICK REPLIES DENTRO DEL CHAT -->
+  
+      <div v-if="messages.length === 1" class="suggestions">
+  
+        <button
+          v-for="(q,index) in suggestions"
+          :key="index"
+          class="suggestion-btn"
+          @click="sendSuggestion(q)"
+        >
+          {{ q }}
+        </button>
+  
       </div>
   
     </div>
@@ -38,20 +50,31 @@
   </template>
   
   <script setup>
-  
+
+  import "../assets/css/chat.css"
   import { ref, nextTick, onMounted } from "vue"
   
   const input = ref("")
   const messages = ref([])
   const chatBox = ref(null)
+  
+
+  
+  /* PREGUNTAS SUGERIDAS */
+  
   const suggestions = [
-  "¿Cuál es el horario de prácticas?",
-  "¿Quién es mi tutor?",
-  "¿Cuántas horas debo hacer?",
-  "¿Cómo justifico una ausencia?"
-]
-
-
+    "¿Cuál es el horario de prácticas?",
+    "¿Quién es mi tutor?",
+    "¿Cuántas horas debo hacer?",
+    "¿Cómo justifico una ausencia?"
+  ]
+  
+  function sendSuggestion(text){
+    input.value = text
+    sendMessage()
+  }
+  
+  /* MENSAJE INICIAL */
   
   onMounted(() => {
   
@@ -110,118 +133,4 @@
   
   </script>
   
-  <style>
-  
-  .chat-wrapper{
-  position:fixed;
-  bottom:30px;
-  right:30px;
-  width:430px;
-  height:520px;
-  background:#000000;
-  border-radius:14px;
-  box-shadow:0 12px 35px rgba(0,0,0,0.35);
-  display:flex;
-  flex-direction:column;
-  font-family:Arial;
-  overflow:hidden;
-}
-
-/* HEADER CON GRADIENTE DEL LOGO */
-
-.chat-header{
-  background: linear-gradient(
-    160deg,
-    #1F6935 0%,
-    #59BF38 45%,
-    #AEE565 80%
-  );
-  color:white;
-  padding:14px;
-  font-weight:bold;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.chat-logo{
-  width:34px;
-  height:34px;
-  object-fit:contain;
-}
-
-/* ÁREA MENSAJES */
-
-.chat-box{
-  flex:1;
-  overflow-y:auto;
-  padding:14px;
-  background:#C6D8C6;
-  display:flex;
-  flex-direction:column;
-}
-
-/* BURBUJAS */
-
-.msg{
-  padding:10px 14px;
-  border-radius:16px;
-  margin-bottom:10px;
-  max-width:75%;
-  font-size:14px;
-}
-
-/* MENSAJE DEL ALUMNO */
-
-.user{
-  background:#59BF38;
-  color:white;
-  align-self:flex-end;
-  margin-left:auto;
-}
-
-/* MENSAJE DEL MENTOR */
-
-.bot{
-  background:white;
-  border:1px solid #AEE565;
-  color:#1F6935;
-}
-
-/* INPUT */
-
-.chat-input{
-  display:flex;
-  background:#000000;
-  border-top:1px solid #1F6935;
-}
-
-.chat-input input{
-  flex:1;
-  border:none;
-  padding:12px;
-  outline:none;
-  background:#000000;
-  color:white;
-}
-
-.chat-input input::placeholder{
-  color:#C6D8C6;
-}
-
-/* BOTÓN */
-
-.chat-input button{
-  border:none;
-  background:#59BF38;
-  color:white;
-  padding:12px 18px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.chat-input button:hover{
-  background:#1F6935;
-}
-  
-  </style>
+ 
